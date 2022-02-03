@@ -2,6 +2,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mySprite.vy == 0) {
         mySprite.vy = -132.5
     }
+    scene.cameraShake(2, 500)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
     if (level == 0) {
@@ -31,6 +32,7 @@ function clouds () {
         .......bbb......bbbbb...................
         ........................................
         `, SpriteKind.Player)
+    cloudTypeOne.setPosition(32, 60)
     cloudTypeTwo = sprites.create(img`
         ........................................
         ........................................
@@ -53,6 +55,7 @@ function clouds () {
         ...........bbb................bbb.......
         ........................................
         `, SpriteKind.Player)
+    cloudTypeTwo.setPosition(76, 21)
 }
 function levels () {
     // level 1
@@ -69,6 +72,7 @@ function levels () {
     }
 }
 function spawnPlayer () {
+    clouds()
     pixelsToMeters = 30
     mySprite = sprites.create(img`
         . . 2 2 b b b b b . . . . . . . 
