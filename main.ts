@@ -43,7 +43,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
-    let level = 0
     if (level == 0) {
         game.over(false)
     }
@@ -102,8 +101,7 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
     tiles.placeOnRandomTile(openchest, sprites.dungeon.chestClosed)
     pause(500)
-    game.showLongText("He's improving...", DialogLayout.Bottom)
-    game.showLongText("Let's see what else he can do...", DialogLayout.Bottom)
+    setLevel(level + 1)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     pointingLeft = 0
@@ -212,6 +210,7 @@ let pixelsToMeters = 0
 let cloudTypeTwo: Sprite = null
 let cloudTypeOne: Sprite = null
 let mySprite: Sprite = null
+let level = 0
 let openchest: Sprite = null
 let pointingLeft = 0
 pointingLeft = 0
@@ -235,4 +234,5 @@ openchest = sprites.create(img`
     `, SpriteKind.Food)
 openchest.setPosition(-1000, -1000)
 spawnPlayer()
-setLevel(0)
+pointingLeft = 0
+setLevel(level)
