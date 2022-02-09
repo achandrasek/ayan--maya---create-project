@@ -1,0 +1,17 @@
+{
+    "image1": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACDdDYAA4O4AIt0NiCDe7SAi2IiIIu7eLSKIiIgi3t6NiIWIACLe3S0iiAgAIt3dLSKICAAi/+0tiIWIACLd7g0iiIiIINDtDSLYiIgg0O0AIt0NiAAADQAg3Q2AAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "oiraM"
+    },
+    "image2": {
+        "data": "hwQQABAAAAAAAAAAAN0AAAAAAAAg3Q0iAAAAACLSIAIAAO4OIgIiAgDi3Q4iAiCIIOLu3SKCiIgg4u3dKCKIiCDS3d2CiIiIINLd3SKIiAgg0t3dIoiICCDy394iWIgIANLt3iiIiAAAAt3egliIAN0i3e4AgIgA3S3SDgAgIgDdLSIAICIiAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "oiraM Jump"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myImages"
+    }
+}

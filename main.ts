@@ -1,13 +1,156 @@
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (mySprite.vy == 0) {
-        mySprite.vy = -132.5
+function setLevel (level: number) {
+    if (level == 0) {
+        tiles.setTilemap(tilemap`level1`)
+        scene.setBackgroundColor(9)
+        tiles.placeOnRandomTile(mySprite, sprites.castle.saplingOak)
     }
-    scene.cameraShake(2, 500)
+    if (level == 1) {
+        tiles.setTilemap(tilemap`level2`)
+    }
+    if (level == 2) {
+        tiles.setTilemap(tilemap`level2`)
+    }
+}
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.stopAnimation(animation.AnimationTypes.All, mySprite)
+    if (pointingLeft == 0) {
+        if (mySprite.vy == 0) {
+            mySprite.setImage(assets.image`oiraM Jump`)
+            mySprite.vy = -132.5
+        }
+    } else {
+        if (mySprite.vy == 0) {
+            mySprite.setImage(img`
+                d d d . . . . . . . . . . . . . 
+                d d d . . 2 2 2 2 2 2 . . . . . 
+                d d 2 2 2 2 2 2 2 2 2 2 . . . . 
+                2 2 2 . d f d d d e e e . . . . 
+                2 2 d d d f d d d d e d e . . . 
+                2 d d d e d d d d e e d e . . . 
+                . e e e e e d d d d d e e . . . 
+                . . e d d d d d d d d . . . . . 
+                . . . 2 8 2 2 2 2 8 2 2 2 2 . . 
+                2 . . 8 2 2 2 2 8 2 2 2 2 2 2 . 
+                2 . . 8 8 8 8 8 8 2 2 2 2 2 d d 
+                2 2 8 5 8 5 8 8 8 2 8 . . d d d 
+                2 2 8 8 8 8 8 8 8 8 8 . 2 . d . 
+                2 2 8 8 8 8 8 8 8 8 8 2 2 2 . . 
+                . . . . . 8 8 8 8 8 8 8 2 2 2 . 
+                . . . . . . . . 8 8 8 8 . . 2 . 
+                `)
+            mySprite.vy = -132.5
+        }
+    }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
+    let level = 0
     if (level == 0) {
         game.over(false)
     }
+})
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    pointingLeft = 1
+    animation.runImageAnimation(
+    mySprite,
+    [img`
+        . . . . . 2 2 2 2 2 2 . . . . . 
+        . . . 2 2 2 2 2 2 2 2 2 . . . . 
+        . . . . . d f d e e e e . . . . 
+        . . . d d d f d d d e d e . . . 
+        . . d d d e d d d e e d e . . . 
+        . . . e e e e d d d d e e . . . 
+        . . . . d d d d d d d . . . . . 
+        . . . . . . 2 2 2 8 2 2 . . . . 
+        . . . 2 2 2 8 2 2 8 2 2 2 . . . 
+        . . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
+        . . d d 8 8 5 8 8 5 8 8 d d . . 
+        . . d d d 8 8 8 8 8 8 d d d . . 
+        . . d d 8 8 8 8 8 8 8 8 d d . . 
+        . . . . 8 8 8 . . 8 8 8 . . . . 
+        . . . 8 8 8 . . . . 8 8 8 . . . 
+        . . 8 8 8 8 . . . . 8 8 8 8 . . 
+        `,img`
+        d d d . . . . . . . . . . . . . 
+        d d d . . 2 2 2 2 2 2 . . . . . 
+        d d 2 2 2 2 2 2 2 2 2 2 . . . . 
+        2 2 2 . d f d d d e e e . . . . 
+        2 2 d d d f d d d d e d e . . . 
+        2 d d d e d d d d e e d e . . . 
+        . e e e e e d d d d d e e . . . 
+        . . e d d d d d d d d . . . . . 
+        . . . 2 8 2 2 2 2 8 2 2 2 2 . . 
+        2 . . 8 2 2 2 2 8 2 2 2 2 2 2 . 
+        2 . . 8 8 8 8 8 8 2 2 2 2 2 d d 
+        2 2 8 5 8 5 8 8 8 2 8 . . d d d 
+        2 2 8 8 8 8 8 8 8 8 8 . 2 . d . 
+        2 2 8 8 8 8 8 8 8 8 8 2 2 2 . . 
+        . . . . . 8 8 8 8 8 8 8 2 2 2 . 
+        . . . . . . . . 8 8 8 8 . . 2 . 
+        `],
+    180,
+    true
+    )
+})
+controller.right.onEvent(ControllerButtonEvent.Released, function () {
+    animation.stopAnimation(animation.AnimationTypes.All, mySprite)
+    mySprite.setImage(assets.image`oiraM`)
+})
+controller.left.onEvent(ControllerButtonEvent.Released, function () {
+    animation.stopAnimation(animation.AnimationTypes.All, mySprite)
+    mySprite.setImage(assets.image`oiraM`)
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
+    tiles.placeOnRandomTile(openchest, sprites.dungeon.chestClosed)
+    pause(500)
+    game.showLongText("He's improving...", DialogLayout.Bottom)
+    game.showLongText("Let's see what else he can do...", DialogLayout.Bottom)
+})
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    pointingLeft = 0
+    animation.runImageAnimation(
+    mySprite,
+    [img`
+        . . . . . 2 2 2 2 2 2 . . . . . 
+        . . . . 2 2 2 2 2 2 2 2 2 . . . 
+        . . . . e e e e d f d . . . . . 
+        . . . e d e d d d f d d d . . . 
+        . . . e d e e d d d e d d d . . 
+        . . . e e d d d d e e e e . . . 
+        . . . . . d d d d d d d . . . . 
+        . . . . 2 2 8 2 2 2 . . . . . . 
+        . . . 2 2 2 8 2 2 8 2 2 2 . . . 
+        . . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
+        . . d d 8 8 5 8 8 5 8 8 d d . . 
+        . . d d d 8 8 8 8 8 8 d d d . . 
+        . . d d 8 8 8 8 8 8 8 8 d d . . 
+        . . . . 8 8 8 . . 8 8 8 . . . . 
+        . . . 8 8 8 . . . . 8 8 8 . . . 
+        . . 8 8 8 8 . . . . 8 8 8 8 . . 
+        `,img`
+        . . . . . . . . . . . . . d d d 
+        . . . . . 2 2 2 2 2 2 . . d d d 
+        . . . . 2 2 2 2 2 2 2 2 2 2 d d 
+        . . . . e e e d d d f d . 2 2 2 
+        . . . e d e d d d d f d d d 2 2 
+        . . . e d e e d d d d e d d d 2 
+        . . . e e d d d d d e e e e e . 
+        . . . . . d d d d d d d d e . . 
+        . . 2 2 2 2 8 2 2 2 2 8 2 . . . 
+        . 2 2 2 2 2 2 8 2 2 2 2 8 . . 2 
+        d d 2 2 2 2 2 8 8 8 8 8 8 . . 2 
+        d d d . . 8 2 8 8 8 5 8 5 8 2 2 
+        . d . 2 . 8 8 8 8 8 8 8 8 8 2 2 
+        . . 2 2 2 8 8 8 8 8 8 8 8 8 2 2 
+        . 2 2 2 8 8 8 8 8 8 8 . . . . . 
+        . 2 . . 8 8 8 8 . . . . . . . . 
+        `],
+    180,
+    true
+    )
+})
+controller.A.onEvent(ControllerButtonEvent.Released, function () {
+    pause(500)
+    mySprite.setImage(assets.image`oiraM`)
 })
 function clouds () {
     cloudTypeOne = sprites.create(img`
@@ -57,41 +200,10 @@ function clouds () {
         `, SpriteKind.Player)
     cloudTypeTwo.setPosition(76, 21)
 }
-function levels () {
-    // level 1
-    if (level == 0) {
-        tiles.setTilemap(tilemap`level1`)
-        scene.setBackgroundColor(9)
-        tiles.placeOnRandomTile(mySprite, sprites.castle.saplingOak)
-    }
-    if (level == 1) {
-        tiles.setTilemap(tilemap`level2`)
-    }
-    if (level == 2) {
-        tiles.setTilemap(tilemap`level2`)
-    }
-}
 function spawnPlayer () {
     clouds()
     pixelsToMeters = 30
-    mySprite = sprites.create(img`
-        . . 2 2 b b b b b . . . . . . . 
-        . 2 b 4 4 4 4 4 4 b . . . . . . 
-        2 2 4 4 4 4 d d 4 4 b . . . . . 
-        2 b 4 4 4 4 4 4 d 4 b . . . . . 
-        2 b 4 4 4 4 4 4 4 d 4 b . . . . 
-        2 b 4 4 4 4 4 4 4 4 4 b . . . . 
-        2 b 4 4 4 4 4 4 4 4 4 e . . . . 
-        2 2 b 4 4 4 4 4 4 4 b e . . . . 
-        . 2 b b b 4 4 4 b b b e . . . . 
-        . . e b b b b b b b e e . . . . 
-        . . . e e b 4 4 b e e e b . . . 
-        . . . . . e e e e e e b d b b . 
-        . . . . . . . . . . . b 1 1 1 b 
-        . . . . . . . . . . . c 1 d d b 
-        . . . . . . . . . . . c 1 b c . 
-        . . . . . . . . . . . . c c . . 
-        `, SpriteKind.Player)
+    mySprite = sprites.create(assets.image`oiraM`, SpriteKind.Player)
     controller.moveSprite(mySprite, 100, 0)
     mySprite.ay = 250
     scene.cameraFollowSprite(mySprite)
@@ -100,7 +212,27 @@ let pixelsToMeters = 0
 let cloudTypeTwo: Sprite = null
 let cloudTypeOne: Sprite = null
 let mySprite: Sprite = null
-let level = 0
-level = 0
+let openchest: Sprite = null
+let pointingLeft = 0
+pointingLeft = 0
+openchest = sprites.create(img`
+    . b b b b b b b b b b b b b b . 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 4 b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e e 4 4 4 4 4 4 4 4 4 4 e e b 
+    b b b b b b b d d b b b b b b b 
+    . b b b b b b c c b b b b b b . 
+    b c c c c c b c c b c c c c c b 
+    b c c c c c c b b c c c c c c b 
+    b c c c c c c c c c c c c c c b 
+    b c c c c c c c c c c c c c c b 
+    b b b b b b b b b b b b b b b b 
+    b e e e e e e e e e e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b c e e e e e e e e e e e e c b 
+    b b b b b b b b b b b b b b b b 
+    . b b . . . . . . . . . . b b . 
+    `, SpriteKind.Food)
+openchest.setPosition(-1000, -1000)
 spawnPlayer()
-levels()
+setLevel(0)
