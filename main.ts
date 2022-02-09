@@ -6,9 +6,13 @@ function setLevel (level: number) {
     }
     if (level == 1) {
         tiles.setTilemap(tilemap`level2`)
+        scene.setBackgroundColor(9)
+        tiles.placeOnRandomTile(mySprite, sprites.castle.saplingOak)
     }
     if (level == 2) {
         tiles.setTilemap(tilemap`level2`)
+        scene.setBackgroundColor(9)
+        tiles.placeOnRandomTile(mySprite, sprites.castle.saplingOak)
     }
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -100,8 +104,9 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
     tiles.placeOnRandomTile(openchest, sprites.dungeon.chestClosed)
-    pause(500)
-    setLevel(level + 1)
+    pause(2000)
+    game.showLongText("He's improving...", DialogLayout.Bottom)
+    game.showLongText("Let's see what else he can do...", DialogLayout.Bottom)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     pointingLeft = 0
