@@ -360,7 +360,7 @@ function createFoe () {
     foe.follow(mySprite, 75)
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
-    foe.destroy()
+    otherSprite.destroy()
 })
 let foe: Sprite = null
 let cloudTypeTwo: Sprite = null
