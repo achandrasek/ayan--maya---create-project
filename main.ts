@@ -15,7 +15,7 @@ function setLevel (level: number) {
         tiles.placeOnRandomTile(mySprite, sprites.castle.saplingOak)
     }
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)
     if (pointingLeft == 0) {
         if (mySprite.vy == 0) {
@@ -107,6 +107,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sp
     pause(2000)
     game.showLongText("He's improving...", DialogLayout.Bottom)
     game.showLongText("Let's see what else he can do...", DialogLayout.Bottom)
+    setLevel(level + 1)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     pointingLeft = 0
