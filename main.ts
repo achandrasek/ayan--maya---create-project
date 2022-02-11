@@ -167,6 +167,11 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    projectile = sprites.createProjectileFromSprite(assets.image`sabre`, mySprite, 0, 0)
+    pause(200)
+    projectile.destroy()
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
     if (level == 0) {
         game.over(false)
@@ -354,9 +359,13 @@ function createFoe () {
     tiles.placeOnRandomTile(foe, assets.tile`myTile8`)
     foe.follow(mySprite, 75)
 }
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    foe.destroy()
+})
 let foe: Sprite = null
 let cloudTypeTwo: Sprite = null
 let cloudTypeOne: Sprite = null
+let projectile: Sprite = null
 let mySprite: Sprite = null
 let level = 0
 let openchest: Sprite = null
