@@ -168,9 +168,20 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    projectile = sprites.createProjectileFromSprite(assets.image`sabre`, mySprite, 0, 0)
-    pause(200)
-    projectile.destroy()
+    cooldown = 2000
+    if (game.runtime() - press >= cooldown) {
+        mySprite.sayText("im ready", 200, false)
+        projectile = sprites.createProjectileFromSprite(assets.image`sabre`, mySprite, 0, 0)
+        mySprite.setImage(assets.image`strapped`)
+        pause(200)
+        projectile.destroy()
+        press = game.runtime()
+        if (mySprite.overlapsWith(foe)) {
+        	
+        }
+    } else {
+        mySprite.sayText("not yet", 200, false)
+    }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
     if (level == 0) {
@@ -339,22 +350,22 @@ function spawnPlayer () {
 }
 function createFoe () {
     foe = sprites.create(img`
-        . . f f f . . . . . . . . . . . 
-        f f f c c . . . . . . . . f f f 
-        f f c c . . c c . . . f c b b c 
-        f f c 3 c c 3 c c f f b b b c . 
-        f f b 3 b c 3 b c f b b c c c . 
-        . c b b b b b b c f b c b c c . 
-        . c b b b b b b c b b c b b c . 
-        c b 1 b b b 1 b b b c c c b c . 
-        c b b b b b b b b c c c c c . . 
-        f b c b b b c b b b b f c . . . 
-        f b 1 f f f 1 b b b b f c c . . 
-        . f b b b b b b b b c f . . . . 
-        . . f b b b b b b c f . . . . . 
-        . . . f f f f f f f . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . b 5 b . . . 
+        . . . . . . . . . b 5 b . . . . 
+        . . . . . . b b b b b b . . . . 
+        . . . . . b b 5 5 5 5 5 b . . . 
+        . b b b b b 5 5 5 5 5 5 5 b . . 
+        . b d 5 b 5 5 5 5 5 5 5 5 b . . 
+        . . b 5 5 b 5 d 1 f 5 d 4 f . . 
+        . . b d 5 5 b 1 f f 5 4 4 c . . 
+        b b d b 5 5 5 d f b 4 4 4 4 4 b 
+        b d d c d 5 5 b 5 4 4 4 4 4 b . 
+        c d d d c c b 5 5 5 5 5 5 5 b . 
+        c b d d d d d 5 5 5 5 5 5 5 b . 
+        . c d d d d d d 5 5 5 5 5 d b . 
+        . . c b d d d d d 5 5 5 b b . . 
+        . . . c c c c c c c c b b . . . 
         `, SpriteKind.Enemy)
     tiles.placeOnRandomTile(foe, assets.tile`myTile8`)
     foe.follow(mySprite, 75)
@@ -362,10 +373,35 @@ function createFoe () {
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy()
 })
-let foe: Sprite = null
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    pause(200)
+    otherSprite.setImage(img`
+        . . . . . . . . . b 5 b . . . . 
+        . . . . . . . . . b 5 b . . . . 
+        . . . . . . b b b b b b . . . . 
+        . . . . . b b 5 5 5 5 5 b . . . 
+        . . . . b b 5 b c 5 5 d 4 c . . 
+        . b b b b 5 5 5 b f d d 4 4 4 b 
+        . b d 5 b 5 5 b c b 4 4 4 4 b . 
+        . . b 5 5 b 5 5 5 4 4 4 4 b . . 
+        . . b d 5 5 b 5 5 5 5 5 5 b . . 
+        . b d b 5 5 5 d 5 5 5 5 5 5 b . 
+        b d d c d 5 5 b 5 5 5 5 5 5 b . 
+        c d d d c c b 5 5 5 5 5 5 5 b . 
+        c b d d d d d 5 5 5 5 5 5 5 b . 
+        . c d d d d d d 5 5 5 5 5 d b . 
+        . . c b d d d d d 5 5 5 b b . . 
+        . . . c c c c c c c c b b . . . 
+        `)
+    info.changeLifeBy(-1)
+    otherSprite.destroy()
+})
 let cloudTypeTwo: Sprite = null
 let cloudTypeOne: Sprite = null
+let foe: Sprite = null
 let projectile: Sprite = null
+let press = 0
+let cooldown = 0
 let mySprite: Sprite = null
 let level = 0
 let openchest: Sprite = null
@@ -391,167 +427,11 @@ openchest = sprites.create(img`
     `, SpriteKind.Food)
 openchest.setPosition(-1000, -1000)
 spawnPlayer()
+info.setLife(3)
 pointingLeft = 0
 setLevel(level)
 pause(1000)
 createFoe()
-game.onUpdate(function () {
-    animation.stopAnimation(animation.AnimationTypes.All, foe)
-    if (foe.vx > 0) {
-        animation.runImageAnimation(
-        foe,
-        [img`
-            f f f . . . . . . . . f f f . . 
-            c b b c f . . . . . . c c f f . 
-            . c b b c f . . . . . . c c f f 
-            . c c c b f . . . . . . c f c f 
-            . c c b b c f . c c . c c f f f 
-            . c b b c b f c c 3 c c 3 c f f 
-            . c b c c b f c b 3 c b 3 b f f 
-            . . c c c b b c b 1 b b b 1 c . 
-            . . . c c c c b b 1 b b b 1 c . 
-            . . . . c c b b b b b b b b b c 
-            . . . . f b b b b c 1 f f 1 b c 
-            . . . c f b b b b f 1 f f 1 f f 
-            . . c c f b b b b f 2 2 2 2 f f 
-            . . . . f c b b b b 2 2 2 2 f . 
-            . . . . . f c b b b b b b f . . 
-            . . . . . . f f f f f f f . . . 
-            `,img`
-            . . . . . . . . . . . f f f . . 
-            f f f . . . . . . . . c c f f f 
-            c b b c f . . . c c . c c c f f 
-            . c b b b f f c c 3 c c 3 c f f 
-            . c c c b b f c b 3 c b 3 c f f 
-            . c c b c b f c b b b b b b c f 
-            . c b b c b b c b 1 b b b 1 c c 
-            . c b c c c b b b b b b b b b c 
-            . . c c c c c b b c 1 f f 1 b c 
-            . . . c f b b b b f 1 f f 1 f c 
-            . . . c f b b b b f f f f f f f 
-            . . c c f b b b b f 2 2 2 2 f f 
-            . . . . f c b b b 2 2 2 2 2 f . 
-            . . . . . f c b b b 2 2 2 f . . 
-            . . . . . . f f f f f f f . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . c c . c c . . . 
-            . . . . . . c c c 3 c c 3 f . . 
-            . . . . . c c c b 3 c b 3 c f . 
-            . . . . f f b b b b b b b b c f 
-            . . . . f f b b b 1 b b b 1 c c 
-            . . . f f f c b b b b b b b b c 
-            . . . f f f f b b c 1 f f 1 b c 
-            . . . b b b c c b f 1 f f 1 f f 
-            . . . c c c c f b f f f f f f f 
-            . . c c c b b f b f 2 2 2 2 f f 
-            . . . c b b c c b 2 2 2 2 2 f . 
-            . . c b b c c f f b 2 2 2 f . . 
-            . c c c c c f f f f f f f . . . 
-            c c c c . . . . . . . . . . . . 
-            `,img`
-            . f f f . . . . . . . . f f f . 
-            . c b b c f . . . . . . . c f f 
-            . . c b b c f . . . . . . c c f 
-            . . c c c b f . . . . . . . f c 
-            . . c c b b f f . . . . . f f c 
-            . . c b b c b f c c . c c f f f 
-            . . c b c c b f c c c c c f f f 
-            . . . c c c b c b 3 c c 3 c f . 
-            . . . c c c c b b 3 c b 3 b c . 
-            . . . . c c b b b b b b b b c c 
-            . . . c f b b b 1 1 b b b 1 1 c 
-            . . c c f b b b b b b b b b b f 
-            . . . . f b b b b c b b b c b f 
-            . . . . f c b b b 1 f f f 1 f . 
-            . . . . . f c b b b b b b f . . 
-            . . . . . . f f f f f f f . . . 
-            `],
-        100,
-        true
-        )
-    } else if (foe.vx < 0) {
-        animation.runImageAnimation(
-        foe,
-        [img`
-            . . f f f . . . . . . . . f f f 
-            . f f c c . . . . . . f c b b c 
-            f f c c . . . . . . f c b b c . 
-            f c f c . . . . . . f b c c c . 
-            f f f c c . c c . f c b b c c . 
-            f f c 3 c c 3 c c f b c b b c . 
-            f f b 3 b c 3 b c f b c c b c . 
-            . c b b b b b b c b b c c c . . 
-            . c 1 b b b 1 b b c c c c . . . 
-            c b b b b b b b b b c c . . . . 
-            c b c b b b c b b b b f . . . . 
-            f b 1 f f f 1 b b b b f c . . . 
-            f b b b b b b b b b b f c c . . 
-            . f b b b b b b b b c f . . . . 
-            . . f b b b b b b c f . . . . . 
-            . . . f f f f f f f . . . . . . 
-            `,img`
-            . . f f f . . . . . . . . . . . 
-            f f f c c . . . . . . . . f f f 
-            f f c c . . c c . . . f c b b c 
-            f f c 3 c c 3 c c f f b b b c . 
-            f f b 3 b c 3 b c f b b c c c . 
-            . c b b b b b b c f b c b c c . 
-            . c b b b b b b c b b c b b c . 
-            c b 1 b b b 1 b b b c c c b c . 
-            c b b b b b b b b c c c c c . . 
-            f b c b b b c b b b b f c . . . 
-            f b 1 f f f 1 b b b b f c c . . 
-            . f b b b b b b b b c f . . . . 
-            . . f b b b b b b c f . . . . . 
-            . . . f f f f f f f . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . c c . . c c . . . . . . . . 
-            . . c 3 c c 3 c c c . . . . . . 
-            . c b 3 b c 3 b c c c . . . . . 
-            . c b b b b b b b b f f . . . . 
-            c c b b b b b b b b f f . . . . 
-            c b 1 b b b 1 b b c f f f . . . 
-            c b b b b b b b b f f f f . . . 
-            f b c b b b c b c c b b b . . . 
-            f b 1 f f f 1 b f c c c c . . . 
-            . f b b b b b b f b b c c . . . 
-            c c f b b b b b c c b b c . . . 
-            c c c f f f f f f c c b b c . . 
-            . c c c . . . . . . c c c c c . 
-            . . c c c . . . . . . . c c c c 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . f f f . . . . . . . . f f f . 
-            f f c . . . . . . . f c b b c . 
-            f c c . . . . . . f c b b c . . 
-            c f . . . . . . . f b c c c . . 
-            c f f . . . . . f f b b c c . . 
-            f f f c c . c c f b c b b c . . 
-            f f f c c c c c f b c c b c . . 
-            . f c 3 c c 3 b c b c c c . . . 
-            . c b 3 b c 3 b b c c c c . . . 
-            c c b b b b b b b b c c . . . . 
-            c b 1 b b b 1 b b b b f c . . . 
-            f b b b b b b b b b b f c c . . 
-            f b c b b b c b b b b f . . . . 
-            . f 1 f f f 1 b b b c f . . . . 
-            . . f b b b b b b c f . . . . . 
-            . . . f f f f f f f . . . . . . 
-            `],
-        100,
-        true
-        )
-    }
-})
-game.onUpdateInterval(100, function () {
-	
-})
 game.onUpdateInterval(3000, function () {
     createFoe()
 })
