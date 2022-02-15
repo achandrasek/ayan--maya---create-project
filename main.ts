@@ -169,6 +169,7 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(assets.image`sabre`, mySprite, 0, 0)
+    mySprite.setImage(assets.image`strapped`)
     pause(200)
     projectile.destroy()
 })
