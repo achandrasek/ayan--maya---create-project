@@ -169,7 +169,6 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(assets.image`sabre`, mySprite, 0, 0)
-    mySprite.setImage(assets.image`strapped`)
     pause(200)
     projectile.destroy()
 })
@@ -340,22 +339,22 @@ function spawnPlayer () {
 }
 function createFoe () {
     foe = sprites.create(img`
+        . . f f f . . . . . . . . . . . 
+        f f f c c . . . . . . . . f f f 
+        f f c c . . c c . . . f c b b c 
+        f f c 3 c c 3 c c f f b b b c . 
+        f f b 3 b c 3 b c f b b c c c . 
+        . c b b b b b b c f b c b c c . 
+        . c b b b b b b c b b c b b c . 
+        c b 1 b b b 1 b b b c c c b c . 
+        c b b b b b b b b c c c c c . . 
+        f b c b b b c b b b b f c . . . 
+        f b 1 f f f 1 b b b b f c c . . 
+        . f b b b b b b b b c f . . . . 
+        . . f b b b b b b c f . . . . . 
+        . . . f f f f f f f . . . . . . 
         . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . b 5 b . . . 
-        . . . . . . . . . b 5 b . . . . 
-        . . . . . . b b b b b b . . . . 
-        . . . . . b b 5 5 5 5 5 b . . . 
-        . b b b b b 5 5 5 5 5 5 5 b . . 
-        . b d 5 b 5 5 5 5 5 5 5 5 b . . 
-        . . b 5 5 b 5 d 1 f 5 d 4 f . . 
-        . . b d 5 5 b 1 f f 5 4 4 c . . 
-        b b d b 5 5 5 d f b 4 4 4 4 4 b 
-        b d d c d 5 5 b 5 4 4 4 4 4 b . 
-        c d d d c c b 5 5 5 5 5 5 5 b . 
-        c b d d d d d 5 5 5 5 5 5 5 b . 
-        . c d d d d d d 5 5 5 5 5 d b . 
-        . . c b d d d d d 5 5 5 b b . . 
-        . . . c c c c c c c c b b . . . 
+        . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
     tiles.placeOnRandomTile(foe, assets.tile`myTile8`)
     foe.follow(mySprite, 75)
@@ -396,6 +395,163 @@ pointingLeft = 0
 setLevel(level)
 pause(1000)
 createFoe()
+game.onUpdate(function () {
+    animation.stopAnimation(animation.AnimationTypes.All, foe)
+    if (foe.vx > 0) {
+        animation.runImageAnimation(
+        foe,
+        [img`
+            f f f . . . . . . . . f f f . . 
+            c b b c f . . . . . . c c f f . 
+            . c b b c f . . . . . . c c f f 
+            . c c c b f . . . . . . c f c f 
+            . c c b b c f . c c . c c f f f 
+            . c b b c b f c c 3 c c 3 c f f 
+            . c b c c b f c b 3 c b 3 b f f 
+            . . c c c b b c b 1 b b b 1 c . 
+            . . . c c c c b b 1 b b b 1 c . 
+            . . . . c c b b b b b b b b b c 
+            . . . . f b b b b c 1 f f 1 b c 
+            . . . c f b b b b f 1 f f 1 f f 
+            . . c c f b b b b f 2 2 2 2 f f 
+            . . . . f c b b b b 2 2 2 2 f . 
+            . . . . . f c b b b b b b f . . 
+            . . . . . . f f f f f f f . . . 
+            `,img`
+            . . . . . . . . . . . f f f . . 
+            f f f . . . . . . . . c c f f f 
+            c b b c f . . . c c . c c c f f 
+            . c b b b f f c c 3 c c 3 c f f 
+            . c c c b b f c b 3 c b 3 c f f 
+            . c c b c b f c b b b b b b c f 
+            . c b b c b b c b 1 b b b 1 c c 
+            . c b c c c b b b b b b b b b c 
+            . . c c c c c b b c 1 f f 1 b c 
+            . . . c f b b b b f 1 f f 1 f c 
+            . . . c f b b b b f f f f f f f 
+            . . c c f b b b b f 2 2 2 2 f f 
+            . . . . f c b b b 2 2 2 2 2 f . 
+            . . . . . f c b b b 2 2 2 f . . 
+            . . . . . . f f f f f f f . . . 
+            . . . . . . . . . . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . c c . c c . . . 
+            . . . . . . c c c 3 c c 3 f . . 
+            . . . . . c c c b 3 c b 3 c f . 
+            . . . . f f b b b b b b b b c f 
+            . . . . f f b b b 1 b b b 1 c c 
+            . . . f f f c b b b b b b b b c 
+            . . . f f f f b b c 1 f f 1 b c 
+            . . . b b b c c b f 1 f f 1 f f 
+            . . . c c c c f b f f f f f f f 
+            . . c c c b b f b f 2 2 2 2 f f 
+            . . . c b b c c b 2 2 2 2 2 f . 
+            . . c b b c c f f b 2 2 2 f . . 
+            . c c c c c f f f f f f f . . . 
+            c c c c . . . . . . . . . . . . 
+            `,img`
+            . f f f . . . . . . . . f f f . 
+            . c b b c f . . . . . . . c f f 
+            . . c b b c f . . . . . . c c f 
+            . . c c c b f . . . . . . . f c 
+            . . c c b b f f . . . . . f f c 
+            . . c b b c b f c c . c c f f f 
+            . . c b c c b f c c c c c f f f 
+            . . . c c c b c b 3 c c 3 c f . 
+            . . . c c c c b b 3 c b 3 b c . 
+            . . . . c c b b b b b b b b c c 
+            . . . c f b b b 1 1 b b b 1 1 c 
+            . . c c f b b b b b b b b b b f 
+            . . . . f b b b b c b b b c b f 
+            . . . . f c b b b 1 f f f 1 f . 
+            . . . . . f c b b b b b b f . . 
+            . . . . . . f f f f f f f . . . 
+            `],
+        100,
+        true
+        )
+    } else if (foe.vx < 0) {
+        animation.runImageAnimation(
+        foe,
+        [img`
+            . . f f f . . . . . . . . f f f 
+            . f f c c . . . . . . f c b b c 
+            f f c c . . . . . . f c b b c . 
+            f c f c . . . . . . f b c c c . 
+            f f f c c . c c . f c b b c c . 
+            f f c 3 c c 3 c c f b c b b c . 
+            f f b 3 b c 3 b c f b c c b c . 
+            . c b b b b b b c b b c c c . . 
+            . c 1 b b b 1 b b c c c c . . . 
+            c b b b b b b b b b c c . . . . 
+            c b c b b b c b b b b f . . . . 
+            f b 1 f f f 1 b b b b f c . . . 
+            f b b b b b b b b b b f c c . . 
+            . f b b b b b b b b c f . . . . 
+            . . f b b b b b b c f . . . . . 
+            . . . f f f f f f f . . . . . . 
+            `,img`
+            . . f f f . . . . . . . . . . . 
+            f f f c c . . . . . . . . f f f 
+            f f c c . . c c . . . f c b b c 
+            f f c 3 c c 3 c c f f b b b c . 
+            f f b 3 b c 3 b c f b b c c c . 
+            . c b b b b b b c f b c b c c . 
+            . c b b b b b b c b b c b b c . 
+            c b 1 b b b 1 b b b c c c b c . 
+            c b b b b b b b b c c c c c . . 
+            f b c b b b c b b b b f c . . . 
+            f b 1 f f f 1 b b b b f c c . . 
+            . f b b b b b b b b c f . . . . 
+            . . f b b b b b b c f . . . . . 
+            . . . f f f f f f f . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . c c . . c c . . . . . . . . 
+            . . c 3 c c 3 c c c . . . . . . 
+            . c b 3 b c 3 b c c c . . . . . 
+            . c b b b b b b b b f f . . . . 
+            c c b b b b b b b b f f . . . . 
+            c b 1 b b b 1 b b c f f f . . . 
+            c b b b b b b b b f f f f . . . 
+            f b c b b b c b c c b b b . . . 
+            f b 1 f f f 1 b f c c c c . . . 
+            . f b b b b b b f b b c c . . . 
+            c c f b b b b b c c b b c . . . 
+            c c c f f f f f f c c b b c . . 
+            . c c c . . . . . . c c c c c . 
+            . . c c c . . . . . . . c c c c 
+            . . . . . . . . . . . . . . . . 
+            `,img`
+            . f f f . . . . . . . . f f f . 
+            f f c . . . . . . . f c b b c . 
+            f c c . . . . . . f c b b c . . 
+            c f . . . . . . . f b c c c . . 
+            c f f . . . . . f f b b c c . . 
+            f f f c c . c c f b c b b c . . 
+            f f f c c c c c f b c c b c . . 
+            . f c 3 c c 3 b c b c c c . . . 
+            . c b 3 b c 3 b b c c c c . . . 
+            c c b b b b b b b b c c . . . . 
+            c b 1 b b b 1 b b b b f c . . . 
+            f b b b b b b b b b b f c c . . 
+            f b c b b b c b b b b f . . . . 
+            . f 1 f f f 1 b b b c f . . . . 
+            . . f b b b b b b c f . . . . . 
+            . . . f f f f f f f . . . . . . 
+            `],
+        100,
+        true
+        )
+    }
+})
+game.onUpdateInterval(100, function () {
+	
+})
 game.onUpdateInterval(3000, function () {
     createFoe()
 })
