@@ -173,11 +173,13 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         mySprite.sayText("im ready", 200, false)
         projectile = sprites.createProjectileFromSprite(assets.image`sabre`, mySprite, 0, 0)
         mySprite.setImage(assets.image`strapped`)
+        pause(100)
+        mySprite.setImage(assets.image`strapped`)
         pause(200)
         projectile.destroy()
         press = game.runtime()
-        if (mySprite.overlapsWith(foe)) {
-        	
+        if (projectile.overlapsWith(foe)) {
+            info.changeLifeBy(1)
         }
     } else {
         mySprite.sayText("not yet", 200, false)
@@ -374,7 +376,6 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
     otherSprite.destroy()
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    pause(200)
     otherSprite.setImage(img`
         . . . . . . . . . b 5 b . . . . 
         . . . . . . . . . b 5 b . . . . 
@@ -393,8 +394,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         . . c b d d d d d 5 5 5 b b . . 
         . . . c c c c c c c c b b . . . 
         `)
-    info.changeLifeBy(-1)
-    otherSprite.destroy()
+    pause(500)
 })
 let cloudTypeTwo: Sprite = null
 let cloudTypeOne: Sprite = null
@@ -427,7 +427,7 @@ openchest = sprites.create(img`
     `, SpriteKind.Food)
 openchest.setPosition(-1000, -1000)
 spawnPlayer()
-info.setLife(3)
+info.setLife(5)
 pointingLeft = 0
 setLevel(level)
 pause(1000)
