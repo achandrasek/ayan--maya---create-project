@@ -252,11 +252,13 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
         `)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
+    gottem = 1
     tiles.placeOnRandomTile(openchest, sprites.dungeon.chestClosed)
     pause(1000)
     game.showLongText("Hooray! You made it!", DialogLayout.Bottom)
     game.showLongText("Those ducks are vicious huh?", DialogLayout.Bottom)
-    setLevel(level + 1)
+    tiles.placeOnRandomTile(mySprite, sprites.dungeon.floorLight0)
+    tiles.setTileAt(tiles.getTileLocation(148, 7), assets.tile`transparency16`)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     pointingLeft = 0
@@ -306,7 +308,6 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava1, function (sp
     game.over(false)
 })
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
-    pause(500)
     if (pointingLeft == 1) {
         mySprite.setImage(img`
             . . . . . 2 2 2 2 2 2 . . . . . 
@@ -561,6 +562,8 @@ let mySprite: Sprite = null
 let level = 0
 let openchest: Sprite = null
 let pointingLeft = 0
+let gottem = 0
+gottem = 0
 pointingLeft = 0
 openchest = sprites.create(img`
     . b b b b b b b b b b b b b b . 
@@ -587,6 +590,14 @@ pointingLeft = 0
 setLevel(level)
 pause(1000)
 createFoe()
+game.onUpdate(function () {
+	
+})
+game.onUpdateInterval(1000, function () {
+    if (mySprite.tileKindAt(TileDirection.Center, sprites.castle.saplingOak)) {
+        game.over(true)
+    }
+})
 game.onUpdateInterval(3000, function () {
     createFoe()
 })
