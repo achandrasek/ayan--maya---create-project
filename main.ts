@@ -594,11 +594,13 @@ createFoe()
 game.onUpdate(function () {
 	
 })
-game.onUpdateInterval(1000, function () {
-    if (mySprite.tileKindAt(TileDirection.Center, sprites.castle.saplingOak)) {
-        game.over(true)
-    }
-})
 game.onUpdateInterval(3000, function () {
     createFoe()
+})
+game.onUpdateInterval(200, function () {
+    if (mySprite.tileKindAt(TileDirection.Center, sprites.castle.saplingOak)) {
+        if (gottem == 1) {
+            game.over(true)
+        }
+    }
 })
