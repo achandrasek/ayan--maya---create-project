@@ -258,7 +258,6 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sp
     game.showLongText("Hooray! You made it!", DialogLayout.Bottom)
     game.showLongText("Those ducks are vicious huh?", DialogLayout.Bottom)
     tiles.placeOnRandomTile(mySprite, sprites.dungeon.floorLight0)
-    tiles.setTileAt(tiles.getTileLocation(148, 7), assets.tile`transparency16`)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     pointingLeft = 0
@@ -733,9 +732,6 @@ pointingLeft = 0
 setLevel(level)
 pause(1000)
 createFoe()
-game.onUpdate(function () {
-	
-})
 game.onUpdateInterval(3000, function () {
     createFoe()
 })
