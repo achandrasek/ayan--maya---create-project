@@ -3,25 +3,6 @@ namespace myImages {
 
     helpers._registerFactory("image", function(name: string) {
         switch(helpers.stringTrim(name)) {
-            case "image1":
-            case "oiraM":return img`
-. . . . . 2 2 2 2 2 2 . . . . . 
-. . . . 2 2 2 2 2 2 2 2 2 . . . 
-. . . . e e e e d f d . . . . . 
-. . . e d e d d d f d d d . . . 
-. . . e d e e d d d e d d d . . 
-. . . e e d d d d e e e e . . . 
-. . . . . d d d d d d d . . . . 
-. . . . 2 2 8 2 2 2 . . . . . . 
-. . . 2 2 2 8 2 2 8 2 2 2 . . . 
-. . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
-. . d d 8 8 5 8 8 5 8 8 d d . . 
-. . d d d 8 8 8 8 8 8 d d d . . 
-. . d d 8 8 8 8 8 8 8 8 d d . . 
-. . . . 8 8 8 . . 8 8 8 . . . . 
-. . . 8 8 8 . . . . 8 8 8 . . . 
-. . 8 8 8 8 . . . . 8 8 8 8 . . 
-`;
             case "image2":
             case "oiraM Jump":return img`
 . . . . . . . . . . . . . d d d 
@@ -92,6 +73,25 @@ d d d . . 8 2 8 8 8 5 8 5 8 2 2
 ..4444...................4444.
 ..4444...................4444.
 ..............................
+`;
+            case "image1":
+            case "oiraM":return img`
+. . . . . 2 2 2 2 2 2 . . . . . 
+. . . . 2 2 2 2 2 2 2 2 2 . . . 
+. . . . e e e e d f d . . . . . 
+. . . e d e d d d f d d d . . . 
+. . . e d e e d d d e d d d . . 
+. . . e e d d d d e e e e . . . 
+. . . . . d d d d d d d . . . . 
+. . . . 2 2 8 2 2 2 . . . . . . 
+. . . 2 2 2 8 2 2 8 2 2 2 . . . 
+. . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
+. . d d 8 8 5 8 8 5 8 8 d d . . 
+. . d d d 8 8 8 8 8 8 d d d . . 
+. . d d 8 8 8 8 8 8 8 8 d d . . 
+. . . . 8 8 8 . . 8 8 8 . . . . 
+. . . 8 8 8 . . . . 8 8 8 . . . 
+. . 8 8 8 8 . . . . 8 8 8 8 . . 
 `;
         }
         return null;

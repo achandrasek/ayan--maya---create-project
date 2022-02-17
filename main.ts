@@ -239,7 +239,24 @@ controller.right.onEvent(ControllerButtonEvent.Released, function () {
 })
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)
-    mySprite.setImage(assets.image`oiraM`)
+    mySprite.setImage(img`
+        . . . . . 2 2 2 2 2 2 . . . . . 
+        . . . 2 2 2 2 2 2 2 2 2 . . . . 
+        . . . . . d f d e e e e . . . . 
+        . . . d d d f d d d e d e . . . 
+        . . d d d e d d d e e d e . . . 
+        . . . e e e e d d d d e e . . . 
+        . . . . d d d d d d d . . . . . 
+        . . . . . . 2 2 2 8 2 2 . . . . 
+        . . . 2 2 2 8 2 2 8 2 2 2 . . . 
+        . . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
+        . . d d 8 8 5 8 8 5 8 8 d d . . 
+        . . d d d 8 8 8 8 8 8 d d d . . 
+        . . d d 8 8 8 8 8 8 8 8 d d . . 
+        . . . . 8 8 8 . . 8 8 8 . . . . 
+        . . . 8 8 8 . . . . 8 8 8 . . . 
+        . . 8 8 8 8 . . . . 8 8 8 8 . . 
+        `)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
     tiles.placeOnRandomTile(openchest, sprites.dungeon.chestClosed)
@@ -291,9 +308,110 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
-controller.A.onEvent(ControllerButtonEvent.Released, function () {
+controller.up.onEvent(ControllerButtonEvent.Released, function () {
     pause(500)
-    mySprite.setImage(assets.image`oiraM`)
+    if (pointingLeft == 1) {
+        mySprite.setImage(img`
+            . . . . . 2 2 2 2 2 2 . . . . . 
+            . . . 2 2 2 2 2 2 2 2 2 . . . . 
+            . . . . . d f d e e e e . . . . 
+            . . . d d d f d d d e d e . . . 
+            . . d d d e d d d e e d e . . . 
+            . . . e e e e d d d d e e . . . 
+            . . . . d d d d d d d . . . . . 
+            . . . . . . 2 2 2 8 2 2 . . . . 
+            . . . 2 2 2 8 2 2 8 2 2 2 . . . 
+            . . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
+            . . d d 8 8 5 8 8 5 8 8 d d . . 
+            . . d d d 8 8 8 8 8 8 d d d . . 
+            . . d d 8 8 8 8 8 8 8 8 d d . . 
+            . . . . 8 8 8 . . 8 8 8 . . . . 
+            . . . 8 8 8 . . . . 8 8 8 . . . 
+            . . 8 8 8 8 . . . . 8 8 8 8 . . 
+            `)
+        animation.runImageAnimation(
+        mySprite,
+        [img`
+            . . . . . 2 2 2 2 2 2 . . . . . 
+            . . . 2 2 2 2 2 2 2 2 2 . . . . 
+            . . . . . d f d e e e e . . . . 
+            . . . d d d f d d d e d e . . . 
+            . . d d d e d d d e e d e . . . 
+            . . . e e e e d d d d e e . . . 
+            . . . . d d d d d d d . . . . . 
+            . . . . . . 2 2 2 8 2 2 . . . . 
+            . . . 2 2 2 8 2 2 8 2 2 2 . . . 
+            . . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
+            . . d d 8 8 5 8 8 5 8 8 d d . . 
+            . . d d d 8 8 8 8 8 8 d d d . . 
+            . . d d 8 8 8 8 8 8 8 8 d d . . 
+            . . . . 8 8 8 . . 8 8 8 . . . . 
+            . . . 8 8 8 . . . . 8 8 8 . . . 
+            . . 8 8 8 8 . . . . 8 8 8 8 . . 
+            `,img`
+            d d d . . . . . . . . . . . . . 
+            d d d . . 2 2 2 2 2 2 . . . . . 
+            d d 2 2 2 2 2 2 2 2 2 2 . . . . 
+            2 2 2 . d f d d d e e e . . . . 
+            2 2 d d d f d d d d e d e . . . 
+            2 d d d e d d d d e e d e . . . 
+            . e e e e e d d d d d e e . . . 
+            . . e d d d d d d d d . . . . . 
+            . . . 2 8 2 2 2 2 8 2 2 2 2 . . 
+            2 . . 8 2 2 2 2 8 2 2 2 2 2 2 . 
+            2 . . 8 8 8 8 8 8 2 2 2 2 2 d d 
+            2 2 8 5 8 5 8 8 8 2 8 . . d d d 
+            2 2 8 8 8 8 8 8 8 8 8 . 2 . d . 
+            2 2 8 8 8 8 8 8 8 8 8 2 2 2 . . 
+            . . . . . 8 8 8 8 8 8 8 2 2 2 . 
+            . . . . . . . . 8 8 8 8 . . 2 . 
+            `],
+        180,
+        true
+        )
+    } else {
+        mySprite.setImage(assets.image`oiraM`)
+        animation.runImageAnimation(
+        mySprite,
+        [img`
+            . . . . . 2 2 2 2 2 2 . . . . . 
+            . . . . 2 2 2 2 2 2 2 2 2 . . . 
+            . . . . e e e e d f d . . . . . 
+            . . . e d e d d d f d d d . . . 
+            . . . e d e e d d d e d d d . . 
+            . . . e e d d d d e e e e . . . 
+            . . . . . d d d d d d d . . . . 
+            . . . . 2 2 8 2 2 2 . . . . . . 
+            . . . 2 2 2 8 2 2 8 2 2 2 . . . 
+            . . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
+            . . d d 8 8 5 8 8 5 8 8 d d . . 
+            . . d d d 8 8 8 8 8 8 d d d . . 
+            . . d d 8 8 8 8 8 8 8 8 d d . . 
+            . . . . 8 8 8 . . 8 8 8 . . . . 
+            . . . 8 8 8 . . . . 8 8 8 . . . 
+            . . 8 8 8 8 . . . . 8 8 8 8 . . 
+            `,img`
+            . . . . . . . . . . . . . d d d 
+            . . . . . 2 2 2 2 2 2 . . d d d 
+            . . . . 2 2 2 2 2 2 2 2 2 2 d d 
+            . . . . e e e d d d f d . 2 2 2 
+            . . . e d e d d d d f d d d 2 2 
+            . . . e d e e d d d d e d d d 2 
+            . . . e e d d d d d e e e e e . 
+            . . . . . d d d d d d d d e . . 
+            . . 2 2 2 2 8 2 2 2 2 8 2 . . . 
+            . 2 2 2 2 2 2 8 2 2 2 2 8 . . 2 
+            d d 2 2 2 2 2 8 8 8 8 8 8 . . 2 
+            d d d . . 8 2 8 8 8 5 8 5 8 2 2 
+            . d . 2 . 8 8 8 8 8 8 8 8 8 2 2 
+            . . 2 2 2 8 8 8 8 8 8 8 8 8 2 2 
+            . 2 2 2 8 8 8 8 8 8 8 . . . . . 
+            . 2 . . 8 8 8 8 . . . . . . . . 
+            `],
+        180,
+        true
+        )
+    }
 })
 function clouds () {
     cloudTypeOne = sprites.create(img`
@@ -374,6 +492,7 @@ function createFoe () {
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy()
+    info.changeScoreBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.setImage(img`
@@ -394,7 +513,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         . . c b d d d d d 5 5 5 b b . . 
         . . . c c c c c c c c b b . . . 
         `)
+    info.changeLifeBy(-1)
     pause(500)
+    otherSprite.destroy()
 })
 let cloudTypeTwo: Sprite = null
 let cloudTypeOne: Sprite = null
@@ -427,7 +548,7 @@ openchest = sprites.create(img`
     `, SpriteKind.Food)
 openchest.setPosition(-1000, -1000)
 spawnPlayer()
-info.setLife(5)
+info.setLife(20)
 pointingLeft = 0
 setLevel(level)
 pause(1000)
