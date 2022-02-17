@@ -126,14 +126,7 @@ function setLevel (level: number) {
         tiles.placeOnRandomTile(mySprite, sprites.castle.saplingOak)
     }
     if (level == 1) {
-        tiles.setTilemap(tilemap`level1`)
-        scene.setBackgroundColor(9)
-        tiles.placeOnRandomTile(mySprite, sprites.castle.saplingOak)
-    }
-    if (level == 2) {
-        tiles.setTilemap(tilemap`level2`)
-        scene.setBackgroundColor(9)
-        tiles.placeOnRandomTile(mySprite, sprites.castle.saplingOak)
+    	
     }
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -307,6 +300,10 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     180,
     true
     )
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava1, function (sprite, location) {
+    pause(200)
+    game.over(false)
 })
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
     pause(500)
@@ -492,6 +489,7 @@ function createFoe () {
 }
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy()
+    info.changeLifeBy(1)
     info.changeScoreBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -513,9 +511,45 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         . . c b d d d d d 5 5 5 b b . . 
         . . . c c c c c c c c b b . . . 
         `)
+    sprite.setImage(img`
+        . . . . . 2 2 2 2 2 2 . . . . . 
+        . . . . 2 2 2 2 2 2 2 2 2 . . . 
+        . . . . e e e e 4 f 4 . . . . . 
+        . . . e 4 e 4 4 4 f 4 4 4 . . . 
+        . . . e 4 e e 4 4 4 e 4 4 4 . . 
+        . . . e e 4 4 4 4 e e e e . . . 
+        . . . . . 4 4 4 4 4 4 4 . . . . 
+        . . . . 2 2 8 2 2 2 . . . . . . 
+        . . . 2 2 2 8 2 2 8 2 2 2 . . . 
+        . . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
+        . . 4 4 8 8 5 8 8 5 8 8 4 4 . . 
+        . . 4 4 4 8 8 8 8 8 8 4 4 4 . . 
+        . . 4 4 8 8 8 8 8 8 8 8 4 4 . . 
+        . . . . 8 8 8 . . 8 8 8 . . . . 
+        . . . 8 8 8 . . . . 8 8 8 . . . 
+        . . 8 8 8 8 . . . . 8 8 8 8 . . 
+        `)
     info.changeLifeBy(-1)
     pause(500)
     otherSprite.destroy()
+    mySprite.setImage(img`
+        . . . . . 2 2 2 2 2 2 . . . . . 
+        . . . . 2 2 2 2 2 2 2 2 2 . . . 
+        . . . . e e e e d f d . . . . . 
+        . . . e d e d d d f d d d . . . 
+        . . . e d e e d d d e d d d . . 
+        . . . e e d d d d e e e e . . . 
+        . . . . . d d d d d d d . . . . 
+        . . . . 2 2 8 2 2 2 . . . . . . 
+        . . . 2 2 2 8 2 2 8 2 2 2 . . . 
+        . . 2 2 2 2 8 2 2 8 2 2 2 2 . . 
+        . . d d 8 8 5 8 8 5 8 8 d d . . 
+        . . d d d 8 8 8 8 8 8 d d d . . 
+        . . d d 8 8 8 8 8 8 8 8 d d . . 
+        . . . . 8 8 8 . . 8 8 8 . . . . 
+        . . . 8 8 8 . . . . 8 8 8 . . . 
+        . . 8 8 8 8 . . . . 8 8 8 8 . . 
+        `)
 })
 let cloudTypeTwo: Sprite = null
 let cloudTypeOne: Sprite = null
