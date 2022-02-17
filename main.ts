@@ -254,8 +254,8 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
     tiles.placeOnRandomTile(openchest, sprites.dungeon.chestClosed)
     pause(1000)
-    game.showLongText("He's improving...", DialogLayout.Bottom)
-    game.showLongText("Let's see what else he can do...", DialogLayout.Bottom)
+    game.showLongText("Hooray! You made it!", DialogLayout.Bottom)
+    game.showLongText("Those ducks are vicious huh?", DialogLayout.Bottom)
     setLevel(level + 1)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
