@@ -563,6 +563,7 @@ let level = 0
 let openchest: Sprite = null
 let pointingLeft = 0
 let gottem = 0
+game.splash("Welcome to Duck Run!")
 gottem = 0
 pointingLeft = 0
 openchest = sprites.create(img`
